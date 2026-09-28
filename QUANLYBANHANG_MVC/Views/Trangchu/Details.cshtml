@@ -1,0 +1,42 @@
+@model QUANLYBANHANG_MVC.tbSANPHAM
+@{
+    ViewBag.Title = "Chi tiết sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="center_title_bar">Chi Tiết Sản Phẩm</div>
+
+@if (Model != null)
+{
+    <div class="prod_box_big">
+        <div class="top_prod_box_big"></div>
+        <div class="center_prod_box_big">
+            <div class="product_img_big">
+                <a href="~/images/@Model.HINHANH" title="Xem ảnh lớn">
+                    <img src="~/images/@Model.HINHANH" alt="@Model.TENSANPHAM" border="0" width="150" />
+                </a>
+            </div>
+            <div class="details_big_box">
+                <div class="product_title_big">@Model.TENSANPHAM</div>
+                <div class="specifications">
+                    <p>@(string.IsNullOrEmpty(Model.MOTA) ? "Chưa có mô tả." : Model.MOTA)</p>
+                    <p>Số lượng còn: @Model.SOLUONG</p>
+                    @if (Model.tbDANHMUC != null)
+                    {
+                        <p>Danh mục: <span class="blue">@Model.tbDANHMUC.TENDANHMUC</span></p>
+                    }
+                </div>
+                <div class="prod_price_big">
+                    <span class="price">@String.Format("{0:N0}", Model.DONGIA) VNĐ</span>
+                </div>
+                <a href="@Url.Action("Index", "Trangchu")" class="left_bt" title="Thêm vào giỏ hàng">
+                    <img src="~/images/cart.gif" alt="Thêm vào giỏ hàng" border="0" />
+                </a>
+                <a href="@Url.Action("Index", "Trangchu")" class="compare" title="Quay lại danh sách">
+                    Tiếp tục mua
+                </a>
+            </div>
+        </div>
+        <div class="bottom_prod_box_big"></div>
+    </div>
+}

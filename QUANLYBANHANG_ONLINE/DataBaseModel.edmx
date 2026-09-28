@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="dbQUANLYBANHANGModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbDANHMUC">
+          <Key>
+            <PropertyRef Name="MADANHMUC" />
+          </Key>
+          <Property Name="MADANHMUC" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TENDANHMUC" Type="nvarchar" MaxLength="200" />
+          <Property Name="DANHMUCCHA" Type="int" />
+          <Property Name="MOTA" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="tbSANPHAM">
+          <Key>
+            <PropertyRef Name="MASANPHAM" />
+          </Key>
+          <Property Name="MASANPHAM" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TENSANPHAM" Type="nvarchar" MaxLength="200" />
+          <Property Name="MADANHMUC" Type="int" />
+          <Property Name="DONGIA" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="SOLUONG" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="HINHANH" Type="nvarchar" MaxLength="50" />
+          <Property Name="MOTA" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="tbKHANHHANG">
+          <Key>
+            <PropertyRef Name="MAKHACHHANG" />
+          </Key>
+          <Property Name="MAKHACHHANG" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HOTENKH" Type="nvarchar" MaxLength="200" />
+          <Property Name="DIACHI" Type="nvarchar" MaxLength="200" />
+          <Property Name="EMAIL" Type="nvarchar" MaxLength="200" />
+          <Property Name="DIENTHOAI" Type="nvarchar" MaxLength="50" />
+          <Property Name="TAIKHOAN" Type="varchar" MaxLength="50" />
+          <Property Name="MATKHAU" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tbHOADON">
+          <Key>
+            <PropertyRef Name="MAHOADON" />
+          </Key>
+          <Property Name="MAHOADON" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MAKHACHHANG" Type="int" />
+          <Property Name="NGAYDATHANG" Type="datetime" />
+          <Property Name="TONGTIEN" Type="numeric" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="tbCHITIETHOADON">
+          <Key>
+            <PropertyRef Name="MACHITIET" />
+          </Key>
+          <Property Name="MACHITIET" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MAHOADON" Type="int" />
+          <Property Name="MASANPHAM" Type="int" />
+          <Property Name="SOLUONG" Type="int" />
+          <Property Name="DONGIA" Type="numeric" Precision="18" Scale="0" />
+        </EntityType>
+        <Association Name="FK_tbSANPHAM_tbDANHMUC">
+          <End Role="tbDANHMUC" Type="Self.tbDANHMUC" Multiplicity="0..1" />
+          <End Role="tbSANPHAM" Type="Self.tbSANPHAM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbDANHMUC">
+              <PropertyRef Name="MADANHMUC" />
+            </Principal>
+            <Dependent Role="tbSANPHAM">
+              <PropertyRef Name="MADANHMUC" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbHOADON_tbKHANHHANG">
+          <End Role="tbKHANHHANG" Type="Self.tbKHANHHANG" Multiplicity="0..1" />
+          <End Role="tbHOADON" Type="Self.tbHOADON" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbKHANHHANG">
+              <PropertyRef Name="MAKHACHHANG" />
+            </Principal>
+            <Dependent Role="tbHOADON">
+              <PropertyRef Name="MAKHACHHANG" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbCHITIETHOADON_tbHOADON">
+          <End Role="tbHOADON" Type="Self.tbHOADON" Multiplicity="0..1" />
+          <End Role="tbCHITIETHOADON" Type="Self.tbCHITIETHOADON" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbHOADON">
+              <PropertyRef Name="MAHOADON" />
+            </Principal>
+            <Dependent Role="tbCHITIETHOADON">
+              <PropertyRef Name="MAHOADON" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbCHITIETHOADON_tbSANPHAM">
+          <End Role="tbSANPHAM" Type="Self.tbSANPHAM" Multiplicity="0..1" />
+          <End Role="tbCHITIETHOADON" Type="Self.tbCHITIETHOADON" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbSANPHAM">
+              <PropertyRef Name="MASANPHAM" />
+            </Principal>
+            <Dependent Role="tbCHITIETHOADON">
+              <PropertyRef Name="MASANPHAM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dbQUANLYBANHANGModelStoreContainer">
+          <EntitySet Name="tbDANHMUC" EntityType="Self.tbDANHMUC" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbSANPHAM" EntityType="Self.tbSANPHAM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbKHANHHANG" EntityType="Self.tbKHANHHANG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbHOADON" EntityType="Self.tbHOADON" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbCHITIETHOADON" EntityType="Self.tbCHITIETHOADON" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tbSANPHAM_tbDANHMUC" Association="Self.FK_tbSANPHAM_tbDANHMUC">
+            <End Role="tbDANHMUC" EntitySet="tbDANHMUC" />
+            <End Role="tbSANPHAM" EntitySet="tbSANPHAM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbHOADON_tbKHANHHANG" Association="Self.FK_tbHOADON_tbKHANHHANG">
+            <End Role="tbKHANHHANG" EntitySet="tbKHANHHANG" />
+            <End Role="tbHOADON" EntitySet="tbHOADON" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbCHITIETHOADON_tbHOADON" Association="Self.FK_tbCHITIETHOADON_tbHOADON">
+            <End Role="tbHOADON" EntitySet="tbHOADON" />
+            <End Role="tbCHITIETHOADON" EntitySet="tbCHITIETHOADON" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbCHITIETHOADON_tbSANPHAM" Association="Self.FK_tbCHITIETHOADON_tbSANPHAM">
+            <End Role="tbSANPHAM" EntitySet="tbSANPHAM" />
+            <End Role="tbCHITIETHOADON" EntitySet="tbCHITIETHOADON" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dbQUANLYBANHANGModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tbDANHMUC">
+          <Key>
+            <PropertyRef Name="MADANHMUC" />
+          </Key>
+          <Property Name="MADANHMUC" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TENDANHMUC" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DANHMUCCHA" Type="Int32" />
+          <Property Name="MOTA" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbSANPHAMs" Relationship="Self.FK_tbSANPHAM_tbDANHMUC" FromRole="tbDANHMUC" ToRole="tbSANPHAM" />
+        </EntityType>
+        <EntityType Name="tbSANPHAM">
+          <Key>
+            <PropertyRef Name="MASANPHAM" />
+          </Key>
+          <Property Name="MASANPHAM" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TENSANPHAM" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="MADANHMUC" Type="Int32" />
+          <Property Name="DONGIA" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="SOLUONG" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="HINHANH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MOTA" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbDANHMUC" Relationship="Self.FK_tbSANPHAM_tbDANHMUC" FromRole="tbSANPHAM" ToRole="tbDANHMUC" />
+          <NavigationProperty Name="tbCHITIETHOADONs" Relationship="Self.FK_tbCHITIETHOADON_tbSANPHAM" FromRole="tbSANPHAM" ToRole="tbCHITIETHOADON" />
+        </EntityType>
+        <EntityType Name="tbKHANHHANG">
+          <Key>
+            <PropertyRef Name="MAKHACHHANG" />
+          </Key>
+          <Property Name="MAKHACHHANG" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HOTENKH" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DIACHI" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="EMAIL" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DIENTHOAI" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TAIKHOAN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MATKHAU" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tbHOADONs" Relationship="Self.FK_tbHOADON_tbKHANHHANG" FromRole="tbKHANHHANG" ToRole="tbHOADON" />
+        </EntityType>
+        <EntityType Name="tbHOADON">
+          <Key>
+            <PropertyRef Name="MAHOADON" />
+          </Key>
+          <Property Name="MAHOADON" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MAKHACHHANG" Type="Int32" />
+          <Property Name="NGAYDATHANG" Type="DateTime" Precision="3" />
+          <Property Name="TONGTIEN" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="tbKHANHHANG" Relationship="Self.FK_tbHOADON_tbKHANHHANG" FromRole="tbHOADON" ToRole="tbKHANHHANG" />
+          <NavigationProperty Name="tbCHITIETHOADONs" Relationship="Self.FK_tbCHITIETHOADON_tbHOADON" FromRole="tbHOADON" ToRole="tbCHITIETHOADON" />
+        </EntityType>
+        <EntityType Name="tbCHITIETHOADON">
+          <Key>
+            <PropertyRef Name="MACHITIET" />
+          </Key>
+          <Property Name="MACHITIET" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MAHOADON" Type="Int32" />
+          <Property Name="MASANPHAM" Type="Int32" />
+          <Property Name="SOLUONG" Type="Int32" />
+          <Property Name="DONGIA" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="tbHOADON" Relationship="Self.FK_tbCHITIETHOADON_tbHOADON" FromRole="tbCHITIETHOADON" ToRole="tbHOADON" />
+          <NavigationProperty Name="tbSANPHAM" Relationship="Self.FK_tbCHITIETHOADON_tbSANPHAM" FromRole="tbCHITIETHOADON" ToRole="tbSANPHAM" />
+        </EntityType>
+        <Association Name="FK_tbSANPHAM_tbDANHMUC">
+          <End Role="tbDANHMUC" Type="Self.tbDANHMUC" Multiplicity="0..1" />
+          <End Role="tbSANPHAM" Type="Self.tbSANPHAM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbDANHMUC">
+              <PropertyRef Name="MADANHMUC" />
+            </Principal>
+            <Dependent Role="tbSANPHAM">
+              <PropertyRef Name="MADANHMUC" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbHOADON_tbKHANHHANG">
+          <End Role="tbKHANHHANG" Type="Self.tbKHANHHANG" Multiplicity="0..1" />
+          <End Role="tbHOADON" Type="Self.tbHOADON" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbKHANHHANG">
+              <PropertyRef Name="MAKHACHHANG" />
+            </Principal>
+            <Dependent Role="tbHOADON">
+              <PropertyRef Name="MAKHACHHANG" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbCHITIETHOADON_tbHOADON">
+          <End Role="tbHOADON" Type="Self.tbHOADON" Multiplicity="0..1" />
+          <End Role="tbCHITIETHOADON" Type="Self.tbCHITIETHOADON" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbHOADON">
+              <PropertyRef Name="MAHOADON" />
+            </Principal>
+            <Dependent Role="tbCHITIETHOADON">
+              <PropertyRef Name="MAHOADON" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbCHITIETHOADON_tbSANPHAM">
+          <End Role="tbSANPHAM" Type="Self.tbSANPHAM" Multiplicity="0..1" />
+          <End Role="tbCHITIETHOADON" Type="Self.tbCHITIETHOADON" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbSANPHAM">
+              <PropertyRef Name="MASANPHAM" />
+            </Principal>
+            <Dependent Role="tbCHITIETHOADON">
+              <PropertyRef Name="MASANPHAM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dbQUANLYBANHANGEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tbDANHMUCs" EntityType="Self.tbDANHMUC" />
+          <EntitySet Name="tbSANPHAMs" EntityType="Self.tbSANPHAM" />
+          <EntitySet Name="tbKHANHHANGs" EntityType="Self.tbKHANHHANG" />
+          <EntitySet Name="tbHOADONs" EntityType="Self.tbHOADON" />
+          <EntitySet Name="tbCHITIETHOADONs" EntityType="Self.tbCHITIETHOADON" />
+          <AssociationSet Name="FK_tbSANPHAM_tbDANHMUC" Association="Self.FK_tbSANPHAM_tbDANHMUC">
+            <End Role="tbDANHMUC" EntitySet="tbDANHMUCs" />
+            <End Role="tbSANPHAM" EntitySet="tbSANPHAMs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbHOADON_tbKHANHHANG" Association="Self.FK_tbHOADON_tbKHANHHANG">
+            <End Role="tbKHANHHANG" EntitySet="tbKHANHHANGs" />
+            <End Role="tbHOADON" EntitySet="tbHOADONs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbCHITIETHOADON_tbHOADON" Association="Self.FK_tbCHITIETHOADON_tbHOADON">
+            <End Role="tbHOADON" EntitySet="tbHOADONs" />
+            <End Role="tbCHITIETHOADON" EntitySet="tbCHITIETHOADONs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbCHITIETHOADON_tbSANPHAM" Association="Self.FK_tbCHITIETHOADON_tbSANPHAM">
+            <End Role="tbSANPHAM" EntitySet="tbSANPHAMs" />
+            <End Role="tbCHITIETHOADON" EntitySet="tbCHITIETHOADONs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="dbQUANLYBANHANGModelStoreContainer" CdmEntityContainer="dbQUANLYBANHANGEntities">
+          <EntitySetMapping Name="tbDANHMUCs">
+            <EntityTypeMapping TypeName="dbQUANLYBANHANGModel.tbDANHMUC">
+              <MappingFragment StoreEntitySet="tbDANHMUC">
+                <ScalarProperty Name="MADANHMUC" ColumnName="MADANHMUC" />
+                <ScalarProperty Name="TENDANHMUC" ColumnName="TENDANHMUC" />
+                <ScalarProperty Name="DANHMUCCHA" ColumnName="DANHMUCCHA" />
+                <ScalarProperty Name="MOTA" ColumnName="MOTA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbSANPHAMs">
+            <EntityTypeMapping TypeName="dbQUANLYBANHANGModel.tbSANPHAM">
+              <MappingFragment StoreEntitySet="tbSANPHAM">
+                <ScalarProperty Name="MASANPHAM" ColumnName="MASANPHAM" />
+                <ScalarProperty Name="TENSANPHAM" ColumnName="TENSANPHAM" />
+                <ScalarProperty Name="MADANHMUC" ColumnName="MADANHMUC" />
+                <ScalarProperty Name="DONGIA" ColumnName="DONGIA" />
+                <ScalarProperty Name="SOLUONG" ColumnName="SOLUONG" />
+                <ScalarProperty Name="HINHANH" ColumnName="HINHANH" />
+                <ScalarProperty Name="MOTA" ColumnName="MOTA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbKHANHHANGs">
+            <EntityTypeMapping TypeName="dbQUANLYBANHANGModel.tbKHANHHANG">
+              <MappingFragment StoreEntitySet="tbKHANHHANG">
+                <ScalarProperty Name="MAKHACHHANG" ColumnName="MAKHACHHANG" />
+                <ScalarProperty Name="HOTENKH" ColumnName="HOTENKH" />
+                <ScalarProperty Name="DIACHI" ColumnName="DIACHI" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="DIENTHOAI" ColumnName="DIENTHOAI" />
+                <ScalarProperty Name="TAIKHOAN" ColumnName="TAIKHOAN" />
+                <ScalarProperty Name="MATKHAU" ColumnName="MATKHAU" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbHOADONs">
+            <EntityTypeMapping TypeName="dbQUANLYBANHANGModel.tbHOADON">
+              <MappingFragment StoreEntitySet="tbHOADON">
+                <ScalarProperty Name="MAHOADON" ColumnName="MAHOADON" />
+                <ScalarProperty Name="MAKHACHHANG" ColumnName="MAKHACHHANG" />
+                <ScalarProperty Name="NGAYDATHANG" ColumnName="NGAYDATHANG" />
+                <ScalarProperty Name="TONGTIEN" ColumnName="TONGTIEN" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbCHITIETHOADONs">
+            <EntityTypeMapping TypeName="dbQUANLYBANHANGModel.tbCHITIETHOADON">
+              <MappingFragment StoreEntitySet="tbCHITIETHOADON">
+                <ScalarProperty Name="MACHITIET" ColumnName="MACHITIET" />
+                <ScalarProperty Name="MAHOADON" ColumnName="MAHOADON" />
+                <ScalarProperty Name="MASANPHAM" ColumnName="MASANPHAM" />
+                <ScalarProperty Name="SOLUONG" ColumnName="SOLUONG" />
+                <ScalarProperty Name="DONGIA" ColumnName="DONGIA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="T4" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <edmx:Diagrams>
+      <Diagram DiagramId="61f5e53a3f4c460abf6ddac5db52264c" Name="Diagram1">
+        <EntityTypeShape EntityType="dbQUANLYBANHANGModel.tbDANHMUC" Width="1.5" PointX="3.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbQUANLYBANHANGModel.tbSANPHAM" Width="1.5" PointX="6" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbQUANLYBANHANGModel.tbKHANHHANG" Width="1.5" PointX="3.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbQUANLYBANHANGModel.tbHOADON" Width="1.5" PointX="6" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbQUANLYBANHANGModel.tbCHITIETHOADON" Width="1.5" PointX="8.25" PointY="5" IsExpanded="true" />
+        <AssociationConnector Association="dbQUANLYBANHANGModel.FK_tbSANPHAM_tbDANHMUC" ManuallyRouted="false" />
+        <AssociationConnector Association="dbQUANLYBANHANGModel.FK_tbCHITIETHOADON_tbHOADON" ManuallyRouted="false" />
+        <AssociationConnector Association="dbQUANLYBANHANGModel.FK_tbCHITIETHOADON_tbSANPHAM" ManuallyRouted="false" />
+        <AssociationConnector Association="dbQUANLYBANHANGModel.FK_tbHOADON_tbKHANHHANG" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,87 @@
+@model IEnumerable<QUANLYBANHANG_MVC.tbSANPHAM>
+@{
+    ViewBag.Title = "Quản lý Sản Phẩm";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="admin_card">
+    <h2>🛍 Danh sách Sản Phẩm</h2>
+
+    <div style="margin-bottom:15px;">
+        <a href="@Url.Action("ThemMoi", "AdminSanPham")" class="btn btn-success">➕ Thêm sản phẩm mới</a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-warning">Chưa có sản phẩm nào trong hệ thống.</div>
+    }
+    else
+    {
+        <table class="admin_table">
+            <thead>
+                <tr>
+                    <th style="width:50px;">Mã</th>
+                    <th style="width:80px; text-align:center;">Ảnh</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Danh mục</th>
+                    <th style="width:110px;">Đơn giá</th>
+                    <th style="width:70px;">SL</th>
+                    <th style="width:140px; text-align:center;">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var sp in Model)
+                {
+                    <tr>
+                        <td style="text-align:center; font-weight:bold; color:#3498db;">@sp.MASANPHAM</td>
+                        <td style="text-align:center;">
+                            @if (!string.IsNullOrEmpty(sp.HINHANH))
+                            {
+                                <img src="~/images/@sp.HINHANH" alt="@sp.TENSANPHAM"
+                                     style="width:50px; height:50px; object-fit:cover; border:1px solid #ddd;" />
+                            }
+                            else
+                            {
+                                <span style="color:#ccc; font-size:11px;">Chưa có ảnh</span>
+                            }
+                        </td>
+                        <td><strong>@sp.TENSANPHAM</strong>
+                            @if (!string.IsNullOrEmpty(sp.MOTA))
+                            {
+                                <br /><small style="color:#999;">@sp.MOTA</small>
+                            }
+                        </td>
+                        <td>@(sp.tbDANHMUC != null ? sp.tbDANHMUC.TENDANHMUC : "—")</td>
+                        <td style="color:#e74c3c; font-weight:bold;">@String.Format("{0:N0}", sp.DONGIA) đ</td>
+                        <td style="text-align:center;">@sp.SOLUONG</td>
+                        <td style="text-align:center;">
+                            <a href="@Url.Action("SuaDoi", "AdminSanPham", new { id = sp.MASANPHAM })" class="btn btn-warning">✏ Sửa</a>
+                            &nbsp;
+                            <button onclick="xoaSanPham(@sp.MASANPHAM, '@sp.TENSANPHAM')" class="btn btn-danger">🗑 Xóa</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div style="margin-top:10px; font-size:12px; color:#888;">
+            Tổng cộng: <strong>@Model.Count()</strong> sản phẩm
+        </div>
+    }
+</div>
+
+<script>
+    function xoaSanPham(id, ten) {
+        if (confirm('Bạn có chắc muốn xóa sản phẩm "' + ten + '"?')) {
+            fetch('@Url.Action("Xoa", "AdminSanPham")', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: '__RequestVerificationToken=' + encodeURIComponent(document.querySelector('[name=__RequestVerificationToken]')?.value || '') + '&id=' + id
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) { alert(data.message); location.reload(); }
+                else { alert('⚠ ' + data.message); }
+            });
+        }
+    }
+</script>

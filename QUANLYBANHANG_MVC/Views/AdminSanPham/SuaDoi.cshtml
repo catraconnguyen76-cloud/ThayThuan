@@ -1,0 +1,106 @@
+@model QUANLYBANHANG_MVC.tbSANPHAM
+@{
+    ViewBag.Title = "Sửa sản phẩm";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="admin_card" style="max-width:680px;">
+    <h2>✏ Sửa Sản Phẩm: @Model.TENSANPHAM</h2>
+
+    @if (!string.IsNullOrEmpty(ViewBag.ThongBao as string))
+    {
+        <div class="alert alert-warning">⚠ @ViewBag.ThongBao</div>
+    }
+
+    @using (Html.BeginForm("SuaDoi", "AdminSanPham", FormMethod.Post,
+        new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="MASANPHAM" value="@Model.MASANPHAM" />
+
+        <div class="form_row">
+            <label>Mã sản phẩm</label>
+            <input type="text" value="SP@Model.MASANPHAM" disabled style="background:#f0f0f0; color:#888;" />
+        </div>
+
+        <div class="form_row">
+            <label>Tên sản phẩm <span style="color:red;">*</span></label>
+            <input type="text" name="TENSANPHAM" id="TENSANPHAM" value="@Model.TENSANPHAM" />
+        </div>
+
+        <div style="display:flex; gap:20px;">
+            <div class="form_row" style="flex:1;">
+                <label>Đơn giá (VNĐ)</label>
+                <input type="text" name="DONGIA" id="DONGIA" value="@Model.DONGIA" />
+            </div>
+            <div class="form_row" style="flex:1;">
+                <label>Số lượng</label>
+                <input type="text" name="SOLUONG" id="SOLUONG" value="@Model.SOLUONG" />
+            </div>
+        </div>
+
+        <div class="form_row">
+            <label>Danh mục</label>
+            @Html.DropDownList("MADANHMUC", ViewBag.lstDanhMuc as SelectList,
+                "-- Chọn danh mục --",
+                new { style = "width:100%; padding:7px; border:1px solid #ccc; border-radius:3px;" })
+        </div>
+
+        <div class="form_row">
+            <label>Mô tả sản phẩm</label>
+            <textarea name="MOTA" id="MOTA" rows="3">@Model.MOTA</textarea>
+        </div>
+
+        <div class="form_row">
+            <label>Ảnh sản phẩm</label>
+            <div style="border:2px dashed #ccc; padding:15px; border-radius:4px; background:#fafafa;">
+
+                @* Ảnh hiện tại *@
+                @if (!string.IsNullOrEmpty(Model.HINHANH))
+                {
+                    <div id="anh_hien_tai" style="margin-bottom:12px;">
+                        <strong style="font-size:12px; color:#555;">Ảnh hiện tại:</strong><br />
+                        <img src="~/images/@Model.HINHANH" alt="@Model.TENSANPHAM"
+                             style="max-width:150px; max-height:150px; border:1px solid #ddd; padding:4px; margin-top:5px;" />
+                        <br /><small style="color:#888;">@Model.HINHANH</small>
+                    </div>
+                }
+                else
+                {
+                    <div style="margin-bottom:10px; color:#999; font-size:12px;">Chưa có ảnh</div>
+                }
+
+                <input type="file" name="fileAnh" id="fileAnh" accept="image/*"
+                       onchange="xemTruocAnh(this)"
+                       style="display:block; margin-bottom:10px;" />
+                <div id="preview_box" style="display:none; text-align:center; margin-top:8px;">
+                    <strong style="font-size:12px; color:#27ae60;">✅ Ảnh mới sẽ thay thế:</strong><br />
+                    <img id="preview_img" src="#" alt="Xem trước"
+                         style="max-width:150px; max-height:150px; border:1px solid #27ae60; padding:4px; margin-top:5px;" />
+                    <br /><small id="preview_name" style="color:#888;"></small>
+                </div>
+                <small style="color:#999;">Để trống nếu không muốn thay đổi ảnh | Chấp nhận: .jpg, .jpeg, .png, .gif</small>
+            </div>
+        </div>
+
+        <div style="margin-top:20px;">
+            <button type="submit" class="btn btn-primary">💾 Cập nhật</button>
+            &nbsp;
+            <a href="@Url.Action("Index", "AdminSanPham")" class="btn btn-secondary">↩ Quay lại</a>
+        </div>
+    }
+</div>
+
+<script>
+    function xemTruocAnh(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('preview_img').src = e.target.result;
+                document.getElementById('preview_name').textContent = input.files[0].name;
+                document.getElementById('preview_box').style.display = 'block';
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>

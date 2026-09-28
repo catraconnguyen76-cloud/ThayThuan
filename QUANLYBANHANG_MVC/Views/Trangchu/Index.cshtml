@@ -1,0 +1,41 @@
+@model IEnumerable<QUANLYBANHANG_MVC.tbSANPHAM>
+@{
+    ViewBag.Title = "Danh sách sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="center_title_bar">Danh Sách Sản Phẩm</div>
+
+@foreach (var sp in Model)
+{
+    <div class="prod_box">
+        <div class="top_prod_box"></div>
+        <div class="center_prod_box">
+            <div class="product_title">
+                <a href="@Url.Action("Details", "Trangchu", new { id = sp.MASANPHAM })">@sp.TENSANPHAM</a>
+            </div>
+            <div class="product_img">
+                <a href="@Url.Action("Details", "Trangchu", new { id = sp.MASANPHAM })">
+                    <img src="~/images/@sp.HINHANH" alt="@sp.TENSANPHAM" width="100" height="100" border="0" />
+                </a>
+            </div>
+            <div class="prod_price">
+                <span class="price">@String.Format("{0:N0}", sp.DONGIA) VNĐ</span>
+            </div>
+        </div>
+        <div class="bottom_prod_box"></div>
+        <div class="prod_details_tab">
+            <a href="@Url.Action("Details", "Trangchu", new { id = sp.MASANPHAM })"
+               class="left_bt" title="Thêm vào giỏ hàng">
+                <img src="~/images/cart.gif" alt="Add to cart" border="0" />
+            </a>
+            <a href="#" class="left_bt" title="Yêu thích">
+                <img src="~/images/favs.gif" alt="Specials" border="0" />
+            </a>
+            <a href="#" class="left_bt" title="So sánh">
+                <img src="~/images/favorites.gif" alt="Gifts" border="0" />
+            </a>
+            <a href="@Url.Action("Details", "Trangchu", new { id = sp.MASANPHAM })" class="prod_details">Chi tiết</a>
+        </div>
+    </div>
+}

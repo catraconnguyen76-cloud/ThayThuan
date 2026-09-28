@@ -1,0 +1,82 @@
+@{
+    ViewBag.Title = "Thêm sản phẩm mới";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="admin_card" style="max-width:680px;">
+    <h2>➕ Thêm Sản Phẩm Mới</h2>
+
+    @if (!string.IsNullOrEmpty(ViewBag.ThongBao as string))
+    {
+        <div class="alert alert-warning">⚠ @ViewBag.ThongBao</div>
+    }
+
+    @using (Html.BeginForm("ThemMoi", "AdminSanPham", FormMethod.Post,
+        new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form_row">
+            <label>Tên sản phẩm <span style="color:red;">*</span></label>
+            <input type="text" name="TENSANPHAM" id="TENSANPHAM" placeholder="Nhập tên sản phẩm..." />
+        </div>
+
+        <div style="display:flex; gap:20px;">
+            <div class="form_row" style="flex:1;">
+                <label>Đơn giá (VNĐ)</label>
+                <input type="text" name="DONGIA" id="DONGIA" placeholder="Ví dụ: 15000000" />
+            </div>
+            <div class="form_row" style="flex:1;">
+                <label>Số lượng</label>
+                <input type="text" name="SOLUONG" id="SOLUONG" placeholder="Ví dụ: 50" />
+            </div>
+        </div>
+
+        <div class="form_row">
+            <label>Danh mục</label>
+            @Html.DropDownList("MADANHMUC", ViewBag.lstDanhMuc as SelectList,
+                "-- Chọn danh mục --",
+                new { style = "width:100%; padding:7px; border:1px solid #ccc; border-radius:3px;" })
+        </div>
+
+        <div class="form_row">
+            <label>Mô tả sản phẩm</label>
+            <textarea name="MOTA" id="MOTA" rows="3" placeholder="Nhập mô tả sản phẩm..."></textarea>
+        </div>
+
+        <div class="form_row">
+            <label>Ảnh sản phẩm</label>
+            <div style="border:2px dashed #ccc; padding:15px; border-radius:4px; background:#fafafa;">
+                <input type="file" name="fileAnh" id="fileAnh" accept="image/*"
+                       onchange="xemTruocAnh(this)"
+                       style="display:block; margin-bottom:10px;" />
+                <div id="preview_box" style="display:none; text-align:center;">
+                    <img id="preview_img" src="#" alt="Xem trước ảnh"
+                         style="max-width:200px; max-height:200px; border:1px solid #ddd; padding:5px;" />
+                    <br /><small id="preview_name" style="color:#888;"></small>
+                </div>
+                <small style="color:#999;">Chấp nhận: .jpg, .jpeg, .png, .gif | Nên dùng ảnh vuông (ví dụ: 200x200px)</small>
+            </div>
+        </div>
+
+        <div style="margin-top:20px;">
+            <button type="submit" class="btn btn-success">💾 Lưu sản phẩm</button>
+            &nbsp;
+            <a href="@Url.Action("Index", "AdminSanPham")" class="btn btn-secondary">↩ Quay lại</a>
+        </div>
+    }
+</div>
+
+<script>
+    function xemTruocAnh(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('preview_img').src = e.target.result;
+                document.getElementById('preview_name').textContent = input.files[0].name;
+                document.getElementById('preview_box').style.display = 'block';
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>

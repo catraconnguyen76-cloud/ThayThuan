@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - Quản lý bán hàng Online</title>
+    <link rel="stylesheet" type="text/css" href="~/style.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/style.css" />
+</head>
+<body>
+    <div id="main_container">
+        <!-- Top bar -->
+        <div class="top_bar">
+            <div class="top_search">
+                <div class="search_text"><a href="#">Tìm kiếm nâng cao</a></div>
+                <input type="text" class="search_input" name="search" />
+                <input type="image" src="~/images/search.gif" class="search_bt" alt="Search" />
+            </div>
+            <div class="languages">
+                <div class="lang_text">Ngôn ngữ:</div>
+                <a href="#" class="lang"><img src="~/images/en.gif" alt="English" border="0" /></a>
+                <a href="#" class="lang"><img src="~/images/de.gif" alt="German" border="0" /></a>
+            </div>
+        </div>
+
+        <!-- Header / Banner -->
+        <div id="header">
+            <div id="logo">
+                <a href="@Url.Action("Index", "Trangchu")">
+                    <img src="~/images/logo.png" alt="Logo" border="0" width="237" height="140" />
+                </a>
+            </div>
+            <div class="oferte_content">
+                <div class="top_divider"><img src="~/images/header_divider.png" alt="" width="1" height="164" /></div>
+                <div class="oferta">
+                    <div class="oferta_content">
+                        <img src="~/images/laptop.png" width="94" height="92" alt="" border="0" class="oferta_img" />
+                        <div class="oferta_details">
+                            <div class="oferta_title">Laptop Khuyến Mãi Hè 2026</div>
+                            <div class="oferta_text">Sản phẩm chính hãng chất lượng cao, bảo hành dài hạn toàn quốc với nhiều ưu đãi đặc biệt.</div>
+                            <a href="#" class="details">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="top_divider"><img src="~/images/header_divider.png" alt="" width="1" height="164" /></div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div id="main_content">
+            <!-- Menu Navigation Bar -->
+            <div id="menu_tab">
+                <div class="left_menu_corner"></div>
+                <ul class="menu">
+                    <li><a href="@Url.Action("Index", "Trangchu")" class="nav1">Trang chủ</a></li>
+                    <li class="divider"></li>
+                    <li><a href="@Url.Action("Index", "Trangchu")" class="nav2">Sản phẩm</a></li>
+                    <li class="divider"></li>
+                    @if (Session["ADMIN"] != null)
+                    {
+                        <li><a href="@Url.Action("Index", "AdminDanhMuc")" class="nav3">Quản trị</a></li>
+                        <li class="divider"></li>
+                    }
+                    @if (Session["LOGIN"] != null || Session["ADMIN"] != null)
+                    {
+                        <li><a href="@Url.Action("DangXuat", "KhachHang")" class="nav4">Đăng xuất (@Session["TEN_NGUOI_DUNG"])</a></li>
+                    }
+                    else
+                    {
+                        <li><a href="@Url.Action("DangNhap", "KhachHang")" class="nav4">Tài khoản</a></li>
+                    }
+                    <li class="divider"></li>
+                    <li><a href="#" class="nav5">Liên hệ</a></li>
+                    <li class="divider"></li>
+                </ul>
+                <div class="right_menu_corner"></div>
+            </div>
+
+            <div class="crumb_navigation">
+                <a href="@Url.Action("Index", "Trangchu")">Trang chủ</a>: <span class="current">@ViewBag.Title</span>
+            </div>
+
+            <!-- Left Sidebar -->
+            <div class="left_content">
+                <div class="title_box">Danh Mục Sản Phẩm</div>
+                <ul class="left_menu">
+                    @if (ViewBag.lstDanhMuc != null)
+                    {
+                        int index = 0;
+                        foreach (var dm in ViewBag.lstDanhMuc)
+                        {
+                            string cssClass = (index++ % 2 == 0) ? "even" : "odd";
+                            <li class="@cssClass">
+                                <a href="@Url.Action("DanhSachTheoLoai", "Trangchu", new { id = dm.MADANHMUC })">@dm.TENDANHMUC</a>
+                            </li>
+                        }
+                    }
+                </ul>
+
+                <div class="title_box">Sản Phẩm Nổi Bật</div>
+                <div class="border_box">
+                    <div class="product_title"><a href="#">Laptop Dell Vostro</a></div>
+                    <div class="product_img"><a href="#"><img src="~/images/laptop.png" alt="" border="0" /></a></div>
+                    <div class="prod_price"><span class="price">2.000 VNĐ</span></div>
+                </div>
+
+                <div class="banner_adds">
+                    <a href="#"><img src="~/images/bann2.jpg" alt="" border="0" /></a>
+                </div>
+            </div>
+
+            <!-- Center Content -->
+            <div class="center_content">
+                @RenderBody()
+            </div>
+
+            <!-- Right Sidebar -->
+            <div class="right_content">
+                <div class="shopping_cart">
+                    <div class="cart_title">Giỏ Hàng</div>
+                    <div class="cart_details">
+                        0 sản phẩm <br />
+                        <span class="border_cart"></span>
+                        Tổng tiền: <span class="price">0 VNĐ</span>
+                    </div>
+                    <div class="cart_icon">
+                        <a href="#" title="Giỏ hàng"><img src="~/images/shoppingcart.png" alt="" width="48" height="48" border="0" /></a>
+                    </div>
+                </div>
+
+                <div class="title_box">Quảng Cáo</div>
+                <div class="banner_adds">
+                    <a href="#"><img src="~/images/bann1.jpg" alt="" border="0" /></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="left_footer">
+                <img src="~/images/footer_logo.png" alt="" width="170" height="49" />
+            </div>
+            <div class="center_footer">
+                &copy; 2026 Quản Lý Bán Hàng Online MVC. All Rights Reserved.
+            </div>
+            <div class="right_footer">
+                <a href="@Url.Action("Index", "Trangchu")">Trang chủ</a>
+                <a href="#">Giới thiệu</a>
+                <a href="#">Liên hệ</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

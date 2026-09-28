@@ -1,0 +1,52 @@
+@model IEnumerable<QUANLYBANHANG_MVC.tbDANHMUC>
+@{
+    ViewBag.Title = "Quản lý Danh Mục";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="admin_card">
+    <h2>📂 Danh sách Danh Mục Sản Phẩm</h2>
+
+    <div style="margin-bottom:15px;">
+        <a href="@Url.Action("ThemMoi", "AdminDanhMuc")" class="btn btn-success">➕ Thêm danh mục mới</a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-warning">Chưa có danh mục nào trong hệ thống.</div>
+    }
+    else
+    {
+        <table class="admin_table">
+            <thead>
+                <tr>
+                    <th style="width:60px;">Mã DM</th>
+                    <th>Tên danh mục</th>
+                    <th>DM cha</th>
+                    <th>Mô tả</th>
+                    <th style="width:160px; text-align:center;">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var dm in Model)
+                {
+                    <tr>
+                        <td style="text-align:center; font-weight:bold; color:#3498db;">@dm.MADANHMUC</td>
+                        <td><strong>@dm.TENDANHMUC</strong></td>
+                        <td>@(dm.DANHMUCCHA.HasValue ? dm.DANHMUCCHA.Value.ToString() : "—")</td>
+                        <td style="color:#777;">@(string.IsNullOrEmpty(dm.MOTA) ? "—" : dm.MOTA)</td>
+                        <td style="text-align:center;">
+                            <a href="@Url.Action("SuaDoi", "AdminDanhMuc", new { id = dm.MADANHMUC })" class="btn btn-warning">✏ Sửa</a>
+                            &nbsp;
+                            <button onclick="xoaDanhMuc(@dm.MADANHMUC, '@dm.TENDANHMUC')" class="btn btn-danger">🗑 Xóa</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div style="margin-top:10px; font-size:12px; color:#888;">
+            Tổng cộng: <strong>@Model.Count()</strong> danh mục
+        </div>
+    }
+</div>

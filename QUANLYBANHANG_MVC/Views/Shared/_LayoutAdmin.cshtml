@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - Quản Trị QUANLYBANHANG</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; font-size: 13px; background: #f0f0f0; }
+        /* Top navbar */
+        #admin_header { background: #2c3e50; color: #fff; height: 50px; line-height: 50px; padding: 0 20px; }
+        #admin_header h1 { float: left; font-size: 18px; color: #ecf0f1; }
+        #admin_header .user_info { float: right; font-size: 12px; }
+        #admin_header .user_info a { color: #bdc3c7; text-decoration: none; margin-left: 15px; }
+        #admin_header .user_info a:hover { color: #fff; text-decoration: underline; }
+        /* Sidebar */
+        #admin_sidebar { width: 200px; float: left; background: #34495e; min-height: calc(100vh - 90px); padding-top: 10px; }
+        #admin_sidebar ul { list-style: none; }
+        #admin_sidebar ul li a {
+            display: block; padding: 12px 20px; color: #bdc3c7;
+            text-decoration: none; border-bottom: 1px solid #2c3e50; font-size: 13px;
+        }
+        #admin_sidebar ul li a:hover, #admin_sidebar ul li a.active { background: #2c3e50; color: #fff; }
+        #admin_sidebar .menu_title { padding: 10px 20px 5px; color: #7f8c8d; font-size: 11px; text-transform: uppercase; }
+        /* Main content */
+        #admin_content { margin-left: 200px; padding: 20px; }
+        /* Breadcrumb */
+        .admin_breadcrumb { background: #fff; padding: 8px 15px; margin-bottom: 15px; border-left: 4px solid #3498db; font-size: 12px; }
+        .admin_breadcrumb a { color: #3498db; text-decoration: none; }
+        /* Cards */
+        .admin_card { background: #fff; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 20px; margin-bottom: 20px; }
+        .admin_card h2 { font-size: 16px; color: #2c3e50; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+        /* Buttons */
+        .btn { display: inline-block; padding: 6px 14px; text-decoration: none; border-radius: 3px; font-size: 12px; border: none; cursor: pointer; }
+        .btn-primary { background: #3498db; color: #fff; }
+        .btn-primary:hover { background: #2980b9; }
+        .btn-success { background: #27ae60; color: #fff; }
+        .btn-success:hover { background: #229954; }
+        .btn-warning { background: #f39c12; color: #fff; }
+        .btn-warning:hover { background: #d68910; }
+        .btn-danger { background: #e74c3c; color: #fff; }
+        .btn-danger:hover { background: #cb4335; }
+        .btn-secondary { background: #95a5a6; color: #fff; }
+        .btn-secondary:hover { background: #7f8c8d; }
+        /* Table */
+        .admin_table { width: 100%; border-collapse: collapse; }
+        .admin_table th { background: #2c3e50; color: #fff; padding: 10px 12px; text-align: left; font-size: 12px; }
+        .admin_table td { padding: 9px 12px; border-bottom: 1px solid #eee; }
+        .admin_table tr:hover td { background: #f8f9fa; }
+        /* Form */
+        .form_row { margin-bottom: 15px; }
+        .form_row label { display: block; font-weight: bold; color: #555; margin-bottom: 5px; }
+        .form_row input[type=text], .form_row textarea, .form_row select {
+            width: 100%; padding: 7px 10px; border: 1px solid #ccc; border-radius: 3px; font-size: 13px;
+        }
+        .form_row input[type=text]:focus, .form_row textarea:focus { border-color: #3498db; outline: none; }
+        /* Alerts */
+        .alert { padding: 10px 15px; margin-bottom: 15px; border-radius: 3px; }
+        .alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .alert-danger { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .alert-warning { background: #fff3cd; color: #856404; border: 1px solid #ffc107; }
+        /* Footer */
+        #admin_footer { background: #2c3e50; color: #7f8c8d; text-align: center; padding: 10px; font-size: 11px; clear: both; }
+    </style>
+</head>
+<body>
+    <div id="admin_header">
+        <h1>⚙ Quản Trị Hệ Thống</h1>
+        <div class="user_info">
+            Xin chào: <strong style="color:#f1c40f;">@Session["TEN_NGUOI_DUNG"]</strong>
+            <a href="@Url.Action("Index", "Trangchu")">🏠 Về trang chủ</a>
+            <a href="@Url.Action("DangXuat", "KhachHang")">🚪 Đăng xuất</a>
+        </div>
+    </div>
+
+    <div id="admin_sidebar">
+        <ul>
+            <li><div class="menu_title">📦 Quản lý dữ liệu</div></li>
+            <li><a href="@Url.Action("Index", "AdminDanhMuc")">📂 Quản lý Danh Mục</a></li>
+            <li><a href="@Url.Action("Index", "AdminSanPham")">🛍 Quản lý Sản Phẩm</a></li>
+            <li><div class="menu_title">🌐 Giao diện</div></li>
+            <li><a href="@Url.Action("Index", "Trangchu")">👁 Xem trang web</a></li>
+        </ul>
+    </div>
+
+    <div id="admin_content">
+        <div class="admin_breadcrumb">
+            <a href="@Url.Action("Index", "AdminDanhMuc")">Trang quản trị</a> &raquo; @ViewBag.Title
+        </div>
+
+        @if (TempData["ThanhCong"] != null)
+        {
+            <div class="alert alert-success">✅ @TempData["ThanhCong"]</div>
+        }
+        @if (TempData["LoiXoa"] != null)
+        {
+            <div class="alert alert-danger">❌ @TempData["LoiXoa"]</div>
+        }
+
+        @RenderBody()
+    </div>
+
+    <div id="admin_footer">
+        &copy; 2026 Quản Lý Bán Hàng Online - Admin Panel
+    </div>
+
+    <script>
+        function xoaDanhMuc(id, ten) {
+            if (confirm('Bạn có chắc muốn xóa danh mục "' + ten + '"?\nLưu ý: Không thể xóa nếu danh mục có sản phẩm!')) {
+                fetch('@Url.Action("Xoa", "AdminDanhMuc")', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: '__RequestVerificationToken=' + encodeURIComponent(document.querySelector('[name=__RequestVerificationToken]')?.value || '') + '&id=' + id
+                })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        location.reload();
+                    } else {
+                        alert('⚠ ' + data.message);
+                    }
+                });
+            }
+        }
+    </script>
+    @Html.AntiForgeryToken()
+</body>
+</html>

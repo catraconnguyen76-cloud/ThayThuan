@@ -1,0 +1,56 @@
+@{
+    ViewBag.Title = "Đăng nhập tài khoản";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="center_title_bar">Đăng Nhập Tài Khoản</div>
+
+<div style="clear:both; padding:20px 15px;">
+
+    @if (!string.IsNullOrEmpty(ViewBag.ThongBao as string))
+    {
+        <div style="background:#fff3cd; border:1px solid #ffc107; color:#856404; padding:10px 15px; margin-bottom:15px; font-weight:bold;">
+            ⚠ @ViewBag.ThongBao
+        </div>
+    }
+
+    @using (Html.BeginForm("DangNhap", "KhachHang", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <table style="width:100%; border-collapse:collapse;">
+            <tr>
+                <td colspan="2" style="text-align:center; padding:10px; font-size:16px; font-weight:bold; color:#336699; background:#eef4f9; border-bottom:2px solid #336699;">
+                    🔐 ĐĂNG NHẬP
+                </td>
+            </tr>
+            <tr>
+                <td style="width:200px; padding:10px 10px; font-weight:bold; color:#555;">
+                    Tên người dùng:
+                </td>
+                <td style="padding:10px 10px;">
+                    <input type="text" name="txtUserName" id="txtUserName" style="width:250px; height:26px; padding:3px 6px; border:1px solid #ccc; font-size:13px;" placeholder="Nhập tên đăng nhập..." />
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:10px 10px; font-weight:bold; color:#555;">
+                    Mật khẩu:
+                </td>
+                <td style="padding:10px 10px;">
+                    <input type="password" name="txtPassWord" id="txtPassWord" style="width:250px; height:26px; padding:3px 6px; border:1px solid #ccc; font-size:13px;" placeholder="Nhập mật khẩu..." />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align:center; padding:15px;">
+                    <input type="submit" value="Đăng Nhập" style="padding:7px 30px; background:#336699; color:#fff; border:none; font-size:13px; font-weight:bold; cursor:pointer;" />
+                    &nbsp;&nbsp;
+                    <a href="@Url.Action("Index", "Trangchu")" style="color:#999; font-size:12px; text-decoration:underline;">Quay lại trang chủ</a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align:center; padding:5px; font-size:11px; color:#888;">
+                    <em>Tài khoản quản trị: <strong>admin / admin</strong></em>
+                </td>
+            </tr>
+        </table>
+    }
+</div>

@@ -1,0 +1,34 @@
+@{
+    ViewBag.Title = "Thêm danh mục mới";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="admin_card" style="max-width:600px;">
+    <h2>➕ Thêm Danh Mục Mới</h2>
+
+    @if (!string.IsNullOrEmpty(ViewBag.ThongBao as string))
+    {
+        <div class="alert alert-warning">⚠ @ViewBag.ThongBao</div>
+    }
+
+    @using (Html.BeginForm("ThemMoi", "AdminDanhMuc", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form_row">
+            <label>Tên danh mục <span style="color:red;">*</span></label>
+            <input type="text" name="TENDANHMUC" id="TENDANHMUC" placeholder="Nhập tên danh mục..." />
+        </div>
+
+        <div class="form_row">
+            <label>Mô tả</label>
+            <textarea name="MOTA" id="MOTA" rows="3" placeholder="Mô tả về danh mục..."></textarea>
+        </div>
+
+        <div style="margin-top:20px;">
+            <button type="submit" class="btn btn-success">💾 Lưu danh mục</button>
+            &nbsp;
+            <a href="@Url.Action("Index", "AdminDanhMuc")" class="btn btn-secondary">↩ Quay lại</a>
+        </div>
+    }
+</div>

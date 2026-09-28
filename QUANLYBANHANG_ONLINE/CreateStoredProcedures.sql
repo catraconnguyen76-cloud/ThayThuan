@@ -1,0 +1,90 @@
+USE [dbQUANLYBANHANG]
+GO
+
+/****** Object:  StoredProcedure [dbo].[psGetTableDANHMUC] ******/
+IF OBJECT_ID('psGetTableDANHMUC', 'P') IS NOT NULL DROP PROCEDURE psGetTableDANHMUC
+GO
+CREATE PROCEDURE [dbo].[psGetTableDANHMUC]
+    @MADANHMUC int = NULL
+AS
+BEGIN
+    IF @MADANHMUC IS NULL
+        SELECT * FROM tbDANHMUC
+    ELSE
+        SELECT * FROM tbDANHMUC WHERE MADANHMUC = @MADANHMUC
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[psGetTableSANPHAM] ******/
+IF OBJECT_ID('psGetTableSANPHAM', 'P') IS NOT NULL DROP PROCEDURE psGetTableSANPHAM
+GO
+CREATE PROCEDURE [dbo].[psGetTableSANPHAM]
+    @MASANPHAM int = NULL
+AS
+BEGIN
+    IF @MASANPHAM IS NULL
+        SELECT * FROM tbSANPHAM
+    ELSE
+        SELECT * FROM tbSANPHAM WHERE MASANPHAM = @MASANPHAM
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[psGetTableLOGIN] ******/
+IF OBJECT_ID('psGetTableLOGIN', 'P') IS NOT NULL DROP PROCEDURE psGetTableLOGIN
+GO
+CREATE PROCEDURE [dbo].[psGetTableLOGIN]
+    @USERNAME varchar(50),
+    @PASSWORD varchar(50)
+AS
+BEGIN
+    SELECT * FROM tbKHANHHANG WHERE TAIKHOAN = @USERNAME AND MATKHAU = @PASSWORD
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[psInsertRecordSANPHAM] ******/
+IF OBJECT_ID('psInsertRecordSANPHAM', 'P') IS NOT NULL DROP PROCEDURE psInsertRecordSANPHAM
+GO
+CREATE PROCEDURE [dbo].[psInsertRecordSANPHAM]
+    @TENSANPHAM nvarchar(200),
+    @MADANHMUC int,
+    @DONGIA numeric(18,0),
+    @SOLUONG numeric(18,0),
+    @HINHANH nvarchar(50),
+    @MOTA nvarchar(max)
+AS
+BEGIN
+    INSERT INTO tbSANPHAM (TENSANPHAM, MADANHMUC, DONGIA, SOLUONG, HINHANH, MOTA)
+    VALUES (@TENSANPHAM, @MADANHMUC, @DONGIA, @SOLUONG, @HINHANH, @MOTA)
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[psUpdateRecordSANPHAM] ******/
+IF OBJECT_ID('psUpdateRecordSANPHAM', 'P') IS NOT NULL DROP PROCEDURE psUpdateRecordSANPHAM
+GO
+CREATE PROCEDURE [dbo].[psUpdateRecordSANPHAM]
+    @MASANPHAM int,
+    @TENSANPHAM nvarchar(200),
+    @MADANHMUC int,
+    @DONGIA numeric(18,0),
+    @SOLUONG numeric(18,0),
+    @HINHANH nvarchar(50),
+    @MOTA nvarchar(max)
+AS
+BEGIN
+    UPDATE tbSANPHAM 
+    SET TENSANPHAM = @TENSANPHAM, MADANHMUC = @MADANHMUC, DONGIA = @DONGIA, 
+        SOLUONG = @SOLUONG, HINHANH = @HINHANH, MOTA = @MOTA
+    WHERE MASANPHAM = @MASANPHAM
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[psDeleteRecordSANPHAM] ******/
+IF OBJECT_ID('psDeleteRecordSANPHAM', 'P') IS NOT NULL DROP PROCEDURE psDeleteRecordSANPHAM
+GO
+CREATE PROCEDURE [dbo].[psDeleteRecordSANPHAM]
+    @MASANPHAM int
+AS
+BEGIN
+    DELETE FROM tbSANPHAM WHERE MASANPHAM = @MASANPHAM
+END
+GO
